@@ -17,7 +17,7 @@ export const authOptions: AuthConfig = {
     }),
     DuendeIDS6Provider({
       clientId:  "interactive.confidential", //runtimeConfig.github.clientId,
-      clientSecret: "secret12",
+      clientSecret: "secret",
       issuer: "https://demo.duendesoftware.com",
     })
   ]

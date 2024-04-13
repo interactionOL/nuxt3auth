@@ -2,22 +2,27 @@
     <div>
         <h1>Secure</h1>
         <router-link to="/">Home</router-link>
+
+        <div>
+            <pre>{{ status }}</pre>
+            <pre>{{ session?.user }}</pre>
+            <pre>{{ cookies }}</pre>
+        </div>
+
+        <hr/>
+        <div>
+            <button @click="() => signOut()">Sign out</button>
+        </div>
+
     </div>
 </template>
 
-<script lang="ts">
-//const { signIn, signOut, session, status, cookies, getProviders } = useAuth()
+<script lang="ts" setup>
 
 definePageMeta({ middleware: "auth", auth: { guestRedirectTo: "/login" } })
 
-export default {
-    
-    setup () {
+const { signIn, signOut, session, status, cookies, getProviders } = useAuth()
         
-
-        return {}
-    }
-}
 </script>
 
 <style lang="scss" scoped>
