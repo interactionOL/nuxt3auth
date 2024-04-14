@@ -1,30 +1,27 @@
-<template>
-    <div>
-        <h1>Secure</h1>
-        <router-link to="/">Home</router-link>
-
-        <div>
-            <pre>{{ status }}</pre>
-            <pre>{{ session?.user }}</pre>
-            <pre>{{ cookies }}</pre>
-        </div>
-
-        <hr/>
-        <div>
-            <button @click="() => signOut()">Sign out</button>
-        </div>
-
-    </div>
-</template>
-
 <script lang="ts" setup>
+definePageMeta({
+	middleware: 'auth',
+});
 
-definePageMeta({ middleware: "auth", auth: { guestRedirectTo: "/login" } })
-
-const { signIn, signOut, session, status, cookies, getProviders } = useAuth()
-        
+const { signIn, signOut, status, getProviders, data } = useAuth();
 </script>
 
-<style lang="scss" scoped>
+<template>
+	<div>
+		<h1>Secure</h1>
+		<NuxtLink to="/">Home</NuxtLink>
 
-</style>
+		<div>
+			<pre>{{ status }}</pre>
+			<pre>{{ data?.user }}</pre>
+			<!-- <pre>{{ cookies }}</pre> -->
+		</div>
+
+		<hr />
+		<div>
+			<button @click="() => signOut({ callbackUrl: '/login' })">Sign out</button>
+		</div>
+	</div>
+</template>
+
+<style lang="scss" scoped></style>
