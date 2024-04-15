@@ -28,6 +28,6 @@ export default defineNuxtConfig({
 	},
 	// https://sidebase.io/nuxt-auth/v0.6/configuration/nuxt-config#provider-authjs-baseurl
 	auth: {
-		// baseURL: 'https://localhost:44331/api/auth',
+		baseURL: 'https://localhost:44331',
 	},
 });
