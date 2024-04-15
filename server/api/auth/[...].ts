@@ -3,7 +3,8 @@ import DuendeIDS6Provider from 'next-auth/providers/duende-identity-server6';
 import GithubProvider from 'next-auth/providers/github';
 
 export default NuxtAuthHandler({
-	secret: useRuntimeConfig().authJs.secret,
+    secret: useRuntimeConfig().authJs.secret,
+    origin: useRuntimeConfig().AUTH_ORIGIN,
 	theme: {
 		logo: 'https://nuxt.com/assets/design-kit/logo/icon-green.png',
 	},
