@@ -80,7 +80,6 @@ namespace TodoApi.Controllers
             _context.TodoItems.Add(todoItem);
             await _context.SaveChangesAsync();
 
-            //    return CreatedAtAction("PostTodoItem", new { id = todoItem.Id }, todoItem);
             return CreatedAtAction(nameof(PostTodoItem), new { id = todoItem.Id }, todoItem);
         }
 
