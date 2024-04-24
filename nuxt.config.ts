@@ -7,13 +7,16 @@ export default defineNuxtConfig({
 	},
 	devtools: { enabled: true },
 	modules: ['@sidebase/nuxt-auth'],
-	devServer: {
-		port: 44331,
-		https: {
-		  key: 'server.key',
-		  cert: 'server.crt'
-		}
-	},
+	 plugins: [
+		'~/plugins/axios.ts'
+	],
+	// devServer: {
+	// 	port: 44331,
+	// 	https: {
+	// 	  key: 'server.key',
+	// 	  cert: 'server.crt'
+	// 	}
+	// },
   runtimeConfig: {
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
     AUTH_SECRET: process.env.AUTH_SECRET,
@@ -32,7 +35,8 @@ export default defineNuxtConfig({
   // https://sidebase.io/nuxt-auth/v0.6/configuration/nuxt-config#provider-authjs-baseurl
   
   auth: {
-    baseURL: 'https://localhost:44331',
+	  //baseURL: 'http://localhost:44331',
+	  baseURL: 'http://localhost:3000',
 
     origin: process.env.NEXTAUTH_URL,
     // Whether to periodically refresh the session. Change this to `true` for a refresh every seconds or set this to a number like `5000` for a refresh every 5000 milliseconds (aka: 5 seconds)
@@ -40,7 +44,7 @@ export default defineNuxtConfig({
     // Whether to refresh the session whenever a window focus event happens, i.e, when your user refocuses the window. Set this to `false` to turn this off
     enableSessionRefreshOnWindowFocus: false,
     // Whether to add a global authentication middleware that will protect all pages without exclusion
-    globalAppMiddleware: false,
+    globalAppMiddleware: true,
     // Select the default-provider to use when `signIn` is called. Setting this here will also effect the global middleware behavior: E.g., when you set it to `github` and the user is unauthorized, they will be directly forwarded to the Github OAuth page instead of seeing the app-login page
     defaultProvider: 'auth0',
     // Configuration of the global auth-middleware (only applies if you set `globalAppMiddleware: true` above!)

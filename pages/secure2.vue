@@ -1,13 +1,11 @@
 <script lang="ts" setup>
-import { ApiService } from "./../services/TodoService";
-
-
+import { ApiService } from "../services/TodoService";
 
 
 const { signIn, signOut, status, getProviders, data } = useAuth();
 
 //import { onMounted, ref } from 'vue';
-import type { Todo } from './../definition/todo'
+import type { Todo } from '../definition/todo'
 
 const apiService = new ApiService();
 const todos = ref<Todo[]>([]);
@@ -27,7 +25,7 @@ onMounted(fetchTodos);
 
 <template>
 	<div>
-		<h1>Secure</h1>
+		<h1>Secure PAGE 2</h1>
 		<NuxtLink to="/">Home</NuxtLink>
 
 		<div>
@@ -38,7 +36,7 @@ onMounted(fetchTodos);
 
 		<hr />
 		<div>
-			<button @click="() => signOut({callbackUrl: '/'})">Sign out</button>
+			<button @click="() => signOut()">Sign out</button>
 		</div>
 
 		<h1>Todo List</h1>
@@ -52,3 +50,4 @@ onMounted(fetchTodos);
 </template>
 
 <style lang="scss" scoped></style>
+~/definition/todo

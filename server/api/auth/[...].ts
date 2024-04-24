@@ -20,6 +20,22 @@ export default NuxtAuthHandler({
 			clientId: 'interactive.confidential', //runtimeConfig.github.clientId,
 			clientSecret: 'secret',
 			issuer: 'https://demo.duendesoftware.com',
+			
 		}),
 	],
+	callbacks: {
+    	jwt ({ token, account, profile }) {
+		console.log(account?.access_token)
+			//console.log(profile)
+			if (account?.access_token)
+			{
+				token.access_token = account.access_token;
+			}
+			return token;
+		},
+		session({ session, token }) {
+			return {...session, access_token:token.access_token}
+		}
+	}
+
 });
