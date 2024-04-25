@@ -1,26 +1,35 @@
 <script lang="ts" setup>
-import { ApiService } from "../services/TodoService";
-
-
 const { signIn, signOut, status, getProviders, data } = useAuth();
+import type { Todo } from '../definition/todo';
 
-//import { onMounted, ref } from 'vue';
-import type { Todo } from '../definition/todo'
+// Accessing service through the created composable
+const apiService = useTodoService();
 
-const apiService = new ApiService();
-const todos = ref<Todo[]>([]);
+// async function fetchTodos() {
+// 	try {
+// 		const response = await apiService.get();
+// 		todos.value = response.data;
+// 	} catch (error) {
+// 		console.error('Error fetching todos:', error);
+// 	}
+// }
 
-async function fetchTodos() {
-  try {
-    const response = await apiService.get();
-    todos.value = response.data;
-  } catch (error) {
-    console.error('Error fetching todos:', error);
-  }
-}
+// onMounted(fetchTodos);
 
-onMounted(fetchTodos);
-
+const { data: todos } = await useAsyncData<Todo[]>(
+	'todos',
+	async () => {
+		try {
+			const response = await apiService.get();
+			return response.data;
+		} catch (error) {
+			console.error('Error fetching todos:', error);
+		}
+	},
+	{
+		default: () => [],
+	}
+);
 </script>
 
 <template>
@@ -40,14 +49,13 @@ onMounted(fetchTodos);
 		</div>
 
 		<h1>Todo List</h1>
-    <ul v-if="todos.length">
-      <li v-for="todo in todos" :key="todo.id">
-        <span :class="{ completed: todo.isComplete }">{{ todo.name }}</span>
-      </li>
-    </ul>
-    <p v-else>Loading todos...</p>
+		<ul v-if="todos.length">
+			<li v-for="todo in todos" :key="todo.id">
+				<span :class="{ completed: todo.isComplete }">{{ todo.name }}</span>
+			</li>
+		</ul>
+		<p v-else>Loading todos...</p>
 	</div>
 </template>
 
 <style lang="scss" scoped></style>
-~/definition/todo
