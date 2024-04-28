@@ -17,7 +17,7 @@ definePageMeta({
 
 		{{ JSON.stringify(getProviders()) }}
 
-		<router-link to="/secure">Secure</router-link> |
+		<router-link to="/secure">Token Details</router-link> |
 		<router-link to="/">Home</router-link>
 	</div>
 </template>

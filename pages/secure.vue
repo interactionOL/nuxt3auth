@@ -1,34 +1,14 @@
 <script lang="ts" setup>
-import { ApiService } from "./../services/TodoService";
-
-
-
 
 const { signIn, signOut, status, getProviders, data } = useAuth();
-
-//import { onMounted, ref } from 'vue';
-import type { Todo } from './../definition/todo'
-
-const apiService = new ApiService();
-const todos = ref<Todo[]>([]);
-
-async function fetchTodos() {
-  try {
-    const response = await apiService.get();
-    todos.value = response.data;
-  } catch (error) {
-    console.error('Error fetching todos:', error);
-  }
-}
-
-onMounted(fetchTodos);
 
 </script>
 
 <template>
 	<div>
-		<h1>Secure</h1>
-		<NuxtLink to="/">Home</NuxtLink>
+		<h1>Secure Page - Token Details</h1>
+		<NuxtLink to="/">Home</NuxtLink> |
+		<NuxtLink to="/Todos">ToDo List</NuxtLink>
 
 		<div>
 			<pre>{{ status }}</pre>
@@ -38,16 +18,8 @@ onMounted(fetchTodos);
 
 		<hr />
 		<div>
-			<button @click="() => signOut({callbackUrl: '/'})">Sign out</button>
+			<button @click="() => signOut()">Sign out</button>
 		</div>
-
-		<h1>Todo List</h1>
-    <ul v-if="todos.length">
-      <li v-for="todo in todos" :key="todo.id">
-        <span :class="{ completed: todo.isComplete }">{{ todo.name }}</span>
-      </li>
-    </ul>
-    <p v-else>Loading todos...</p>
 	</div>
 </template>
 

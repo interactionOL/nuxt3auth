@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.Configuration;
 using TodoApi.Models;
 
@@ -31,6 +33,29 @@ builder.Services.AddAuthentication("Bearer")
         options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
         {
             ValidateAudience = false
+        };
+        options.Events = new JwtBearerEvents
+        {
+            OnAuthenticationFailed = context =>
+            {
+                if (context.Exception.GetType() == typeof( SecurityTokenExpiredException ))
+                {
+                    context.Response.Headers.Add( "Token-Expired", "true" );
+                    // Log the token and the exception
+                    Console.WriteLine( "Token expired at {0}", ((SecurityTokenExpiredException)context.Exception).Expires );
+                }
+
+                // Log other authentication failures
+                Console.WriteLine( "Authentication failed: {0}", context.Exception.Message );
+
+                return Task.CompletedTask;
+            },
+            OnTokenValidated = context =>
+            {
+                // Additional logging if needed for successful validation
+                Console.WriteLine( "Token validated for {0}", context.Principal.Identity.Name );
+                return Task.CompletedTask;
+            }
         };
     } );
 
