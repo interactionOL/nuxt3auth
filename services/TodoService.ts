@@ -6,20 +6,15 @@ interface ApiOptions {
   data?: any;
 }
 
-export class ApiService {
-  private readonly axios;
-
-  constructor() {
-    const { $axios } = useNuxtApp();
-    this.axios = $axios;
-  }
+export default class ApiService {
+  constructor(private readonly axios: Axios) {}
 
   get(options: ApiOptions = {}) {
-    return this.axios.get('/ToDoItems', { params: options.params });
-    }
-    
+    return this.axios.get("/ToDoItems", { params: options.params });
+  }
+
   getById(itemId: number, options: ApiOptions = {}) {
-    return this.axios.get('/ToDoItems/' + itemId, { params: options.params });
+    return this.axios.get("/ToDoItems/" + itemId, { params: options.params });
   }
 
   post(url: string, options: ApiOptions = {}) {
