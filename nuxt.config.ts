@@ -8,7 +8,7 @@ export default defineNuxtConfig({
 	devtools: { enabled: true },
 	modules: ['@sidebase/nuxt-auth'],
 	 plugins: [
-		'~/plugins/axios.ts'
+		//'~/plugins/axios.ts'
 	],
 	// devServer: {
 	// 	port: 44331,
@@ -46,7 +46,7 @@ export default defineNuxtConfig({
     // Whether to add a global authentication middleware that will protect all pages without exclusion
     globalAppMiddleware: true,
     // Select the default-provider to use when `signIn` is called. Setting this here will also effect the global middleware behavior: E.g., when you set it to `github` and the user is unauthorized, they will be directly forwarded to the Github OAuth page instead of seeing the app-login page
-    defaultProvider: 'auth0',
+    //defaultProvider: '',
     // Configuration of the global auth-middleware (only applies if you set `globalAppMiddleware: true` above!)
     globalMiddlewareOptions: {
       // Whether to allow access to 404 pages without authentication. Set this to `false` to force users to sign-in before seeing `404` pages. Setting this to false may lead to vue-router problems (as the target page does not exist)

@@ -1,4 +1,5 @@
 import { useAuth } from "#imports";
+import GetRefreshToken from "~/services/TokenService";
 
 export default defineNuxtRouteMiddleware(async (to, from) =>
 {
@@ -17,17 +18,16 @@ export default defineNuxtRouteMiddleware(async (to, from) =>
         console.log("Token has expired", data)
         if (to.meta.auth === false)
         {
-            console.log("Auth NOT required, continue");
+            console.log("Auth NOT required on current page, continue");
         }
         else {
             console.log("Auth required, should goto 401 - " + status.value);
 
             // try and get a refresh token now.
-            
-
-             return signIn(undefined, { callbackUrl: to.path }) as ReturnType<
-               typeof navigateTo
-             >; //This loops and the token is never (re)set to have a new expiry time
+            //GetRefreshToken(session)
+            const test = useAuthState();
+            console.log(test);
+             
         }
     }
 })
