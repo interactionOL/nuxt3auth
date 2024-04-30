@@ -14,7 +14,7 @@ export default defineNuxtRouteMiddleware(async (to, from) =>
     console.log("Expiry on session", session.access_token_expiry);
     console.info("now", Date.now())
 
-    if (session.access_token_expiry < (Date.now() / 1000)) {
+    if ((session.access_token_expiry as number) < (Date.now() / 1000)) {
         console.log("Token has expired", data)
         if (to.meta.auth === false)
         {
@@ -25,8 +25,11 @@ export default defineNuxtRouteMiddleware(async (to, from) =>
 
             // try and get a refresh token now.
             //GetRefreshToken(session)
-            const test = useAuthState();
-            console.log(test);
+            
+            const test = await fetch("/api/auth/refresh/duende-identity-server6", {
+                method: "post"
+            });
+            console.log("test is ", test)
              
         }
     }
