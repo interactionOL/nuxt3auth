@@ -1,58 +1,56 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import { resolve } from 'node:path';
+import { resolve } from "node:path";
 
 export default defineNuxtConfig({
-	alias: {
-		cookie: resolve(__dirname, 'node_modules/cookie'),
-	},
-	devtools: { enabled: true },
-	modules: ['@sidebase/nuxt-auth'],
-	 plugins: [
-		//'~/plugins/axios.ts'
-	],
-	// devServer: {
-	// 	port: 44331,
-	// 	https: {
-	// 	  key: 'server.key',
-	// 	  cert: 'server.crt'
-	// 	}
-	// },
+  alias: {
+    cookie: resolve(__dirname, "node_modules/cookie"),
+  },
+  devtools: { enabled: true },
+  modules: ["nuxt-oidc-auth"],
+  plugins: [
+    //'~/plugins/axios.ts'
+  ],
+  // devServer: {
+  // 	port: 44331,
+  // 	https: {
+  // 	  key: 'server.key',
+  // 	  cert: 'server.crt'
+  // 	}
+  // },
+  oidc: {
+    defaultProvider: "oidc",
+    provideDefaultSecrets: false,
+    providers: {
+      oidc: {
+        clientId: process.env.NUXT_OIDC_PROVIDERS_OIDC_CLIENT_ID ?? "",
+        clientSecret: process.env.NUXT_OIDC_PROVIDERS_OIDC_CLIENT_SECRET ?? "",
+        authorizationUrl: "https://localhost:44311/connect/authorize",
+        tokenUrl: "https://localhost:44311/connect/token",
+        redirectUri: "http://localhost:3000/auth/oidc/callback",
+        //baseUrl: "https://demo.duendesoftware.com",
+        scope: ["openid", "offline_access"],
+        pkce: true,
+        tokenRequestType: "form-urlencoded"
+      },
+    },
+    middleware: {
+      globalMiddlewareEnabled: false,
+      customLoginPage: false,
+    },
+  },
   runtimeConfig: {
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
     AUTH_SECRET: process.env.AUTH_SECRET,
     AUTH_ORIGIN: process.env.AUTH_ORIGIN,
-		authJs: {
-			secret: 'fvRaEefFkPRaXgaNRyy72vIGdYXsS/h/iaGqerhu/JY=',
-			// baseUrl: "https://localhost:44331",
-		},
-		public: {
-			authJs: {
-				// baseUrl: 'http://localhost:44331',
-				// verifyClientOnEveryRequest: true,
-			},
-		},
-	},
-  // https://sidebase.io/nuxt-auth/v0.6/configuration/nuxt-config#provider-authjs-baseurl
-  
-  auth: {
-	  //baseURL: 'http://localhost:44331',
-	  baseURL: 'http://localhost:3000',
-
-    origin: process.env.NEXTAUTH_URL,
-    // Whether to periodically refresh the session. Change this to `true` for a refresh every seconds or set this to a number like `5000` for a refresh every 5000 milliseconds (aka: 5 seconds)
-    enableSessionRefreshPeriodically: false,
-    // Whether to refresh the session whenever a window focus event happens, i.e, when your user refocuses the window. Set this to `false` to turn this off
-    enableSessionRefreshOnWindowFocus: false,
-    // Whether to add a global authentication middleware that will protect all pages without exclusion
-    globalAppMiddleware: true,
-    // Select the default-provider to use when `signIn` is called. Setting this here will also effect the global middleware behavior: E.g., when you set it to `github` and the user is unauthorized, they will be directly forwarded to the Github OAuth page instead of seeing the app-login page
-    //defaultProvider: '',
-    // Configuration of the global auth-middleware (only applies if you set `globalAppMiddleware: true` above!)
-    globalMiddlewareOptions: {
-      // Whether to allow access to 404 pages without authentication. Set this to `false` to force users to sign-in before seeing `404` pages. Setting this to false may lead to vue-router problems (as the target page does not exist)
-      allow404WithoutAuth: true,
-      // Whether to automatically set the callback url to the page the user tried to visit when the middleware stopped them. This is useful to disable this when using the credentials provider, as it does not allow a `callbackUrl`. Setting this to a string-value will result in that being used as the callbackUrl path. Note: You also need to set the global `addDefaultCallbackUrl` setting to `false` if you want to fully disable this for the global middleware.
-      addDefaultCallbackUrl: true
-    }
-	},
+    authJs: {
+      secret: "fvRaEefFkPRaXgaNRyy72vIGdYXsS/h/iaGqerhu/JY=",
+      // baseUrl: "https://localhost:44331",
+    },
+    public: {
+      authJs: {
+        // baseUrl: 'http://localhost:44331',
+        // verifyClientOnEveryRequest: true,
+      },
+    },
+  },
 });

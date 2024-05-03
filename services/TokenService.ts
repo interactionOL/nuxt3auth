@@ -1,8 +1,8 @@
-export default async function GetRefreshToken(token: JWT)
+export default async function GetRefreshToken(token: any)
 {
     try {
-        const { refreshToken } = useAuthState();
-  console.log("Refresh token", refreshToken);
+        //const { refreshToken } = useAuthState();
+  //console.log("Refresh token", refreshToken);
   const url = `https://demo.duendesoftware.com/connect/token`;
   const req = await fetch(url, {
     method: "POST",

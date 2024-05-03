@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-const { signIn, signOut, status, getProviders } = useAuth();
+//const { signIn, signOut, status, getProviders } = useAuth();
 
 definePageMeta({
 	auth: {
@@ -12,8 +12,6 @@ definePageMeta({
 <template>
 	<div>
 		<h1>Login</h1>
-		<button @click="signIn('duende-identity-server6', { callbackUrl: '/secure' })">JS Sign In</button>
-		<button @click="signIn('github', { callbackUrl: '/secure' })">Github Sign In</button>
 
 		{{ JSON.stringify(getProviders()) }}
 
