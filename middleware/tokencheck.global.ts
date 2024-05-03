@@ -37,6 +37,7 @@ export default defineNuxtRouteMiddleware(async (to, from) =>
     if (user.value.expireAt < Date.now() / 1000)
     {
         console.warn("The token is now expired")
+        refresh();
         return;
     }
     // if ((session.access_token_expiry as number) < (Date.now() / 1000)) {
