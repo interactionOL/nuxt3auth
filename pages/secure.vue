@@ -2,7 +2,7 @@
 
 //const { signIn, signOut, status, getProviders, data } = useAuth();
 
-const { loggedIn, user, currentProvider, refresh } = useOidcAuth()
+const { user, loggedIn, currentProvider, refresh } = useOidcAuth()
 
 function unixToDateTime(unixTimestamp: number): string {
     // Convert Unix timestamp to milliseconds
@@ -37,6 +37,9 @@ function unixToDateTime(unixTimestamp: number): string {
 				Logged in at {{ unixToDateTime(user.loggedInAt ?? 0) }}
 				Updated at {{ unixToDateTime(user.updatedAt ?? 0) }}
 				Expire at {{ unixToDateTime(user.expireAt ?? 0) }}
+				Access Token {{ user.accessToken }}
+				Claims {{ user.claims }}
+				Can Refresh {{ user.canRefresh }}
 			</pre>
 			<pre>Provider : {{ currentProvider }}</pre>
 		</div>

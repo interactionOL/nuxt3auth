@@ -1,41 +1,31 @@
 <script lang="ts" setup>
-const { signIn, signOut, status, getProviders, data } = useAuth();
+//const { signIn, signOut, status, getProviders, data } = useAuth();
 
 import type { Todo } from "../definition/todo";
 
-const apiService = useNuxtApp().$todoService;
+const { todoService } = useNuxtApp().$services;
 import type { AxiosError } from "axios";
 
-//const todos = ref<Todo[]>([]);
 const isError = ref<boolean>(false);
 const errorMessage = ref<string>("");
 
-// async function fetchTodos() {
-//   try {
-//     const response = await apiService.get();
-//     todos.value = response.data;
-//   } catch (error) {
-//     console.error('Error fetching todos:', error);
-//     const axiosError = error as AxiosError
-//     isError.value = true;
-//     errorMessage.value = axiosError?.message
-//   }
-
-// }
-
-//onMounted(fetchTodos);
+function loadTodos() {
+  
+}
 
 const { data: todos } = await useAsyncData<Todo[]>(
   "todos",
   async () => {
     try {
-      const response = await apiService.get();
+      const response = await todoService.get();
+      console.log("Response is ", response)
       return response.data;
     } catch (error) {
       console.error("Error fetching todos:", error);
       const axiosError = error as AxiosError;
       isError.value = true;
       errorMessage.value = axiosError?.message;
+      //return []
     }
   },
   {
@@ -50,20 +40,20 @@ const { data: todos } = await useAsyncData<Todo[]>(
     <NuxtLink to="/secure">Token Details</NuxtLink>
 
     <div style="margin-top: 20px">
-      <button @click="() => signOut({ callbackUrl: '/' })">Sign out</button>
+      <!-- <button @click="() => signOut({ callbackUrl: '/' })">Sign out</button> -->
     </div>
 
     <h1>Todo List</h1>
-    <ul v-if="todos.length">
+    <div v-if="isError">
+      <p>There was an error downloading the ToDos, check the server</p>
+      <p>{{ errorMessage }}</p>
+    </div>
+    <ul v-else-if="todos?.length">
       <li v-for="todo in todos" :key="todo.id">
         <span :class="{ completed: todo.isComplete }">{{ todo.name }}</span>
       </li>
     </ul>
-    <div v-else-if="isError">
-      <p>There was an error downloading the ToDos, check the server</p>
-      <p>{{ errorMessage }}</p>
-    </div>
-    <p v-else>Loading todos...</p>
+    <p v-else>Loading todos... <a href="#" @click="loadTodos">reload</a></p>
   </div>
 </template>
 

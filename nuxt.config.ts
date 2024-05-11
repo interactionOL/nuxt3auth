@@ -24,13 +24,14 @@ export default defineNuxtConfig({
       oidc: {
         clientId: process.env.NUXT_OIDC_PROVIDERS_OIDC_CLIENT_ID ?? "",
         clientSecret: process.env.NUXT_OIDC_PROVIDERS_OIDC_CLIENT_SECRET ?? "",
-        authorizationUrl: "https://localhost:44311/connect/authorize",
-        tokenUrl: "https://localhost:44311/connect/token",
+        authorizationUrl: "https://demo.duendesoftware.com/connect/authorize",
+        tokenUrl: "https://demo.duendesoftware.com/connect/token",
         redirectUri: "http://localhost:3000/auth/oidc/callback",
         //baseUrl: "https://demo.duendesoftware.com",
         scope: ["openid", "offline_access"],
         pkce: true,
-        tokenRequestType: "form-urlencoded"
+        tokenRequestType: "form-urlencoded",
+        exposeAccessToken: true,
       },
     },
     middleware: {

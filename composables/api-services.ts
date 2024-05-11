@@ -1,3 +1,3 @@
 export function useTodoService() {
-	return useNuxtApp().$todoService;
+	return useNuxtApp().$services.todoService;
 }

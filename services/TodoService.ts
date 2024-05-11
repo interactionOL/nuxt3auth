@@ -1,4 +1,3 @@
-import { useNuxtApp } from '#app';
 import type { Axios } from 'axios';
 
 interface ApiOptions {
@@ -6,7 +5,7 @@ interface ApiOptions {
   data?: any;
 }
 
-export default class ApiService {
+export default class TodoService {
   constructor(private readonly axios: Axios) {}
 
   get(options: ApiOptions = {}) {

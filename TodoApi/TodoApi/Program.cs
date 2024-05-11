@@ -12,7 +12,7 @@ builder.Services.AddDbContext<TodoContext>(opt =>
         opt.UseSqlite( builder.Configuration.GetConnectionString( "DefaultConnection" ) );
     } );
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen( );
 
 builder.Services.AddCors( options =>
 {
@@ -26,7 +26,8 @@ builder.Services.AddCors( options =>
 } );
 
 
-builder.Services.AddAuthentication("Bearer")
+builder.Services
+    .AddAuthentication("Bearer")
     .AddJwtBearer("Bearer", options =>
     {
         options.Authority = "https://demo.duendesoftware.com";
@@ -48,6 +49,11 @@ builder.Services.AddAuthentication("Bearer")
                 // Log other authentication failures
                 Console.WriteLine( "Authentication failed: {0}", context.Exception.Message );
 
+                return Task.CompletedTask;
+            },
+            OnForbidden = context =>
+            {
+                Console.WriteLine( "Auth Forbidden" );
                 return Task.CompletedTask;
             },
             OnTokenValidated = context =>
