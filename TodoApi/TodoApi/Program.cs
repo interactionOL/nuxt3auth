@@ -1,8 +1,11 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Configuration;
 using TodoApi.Models;
+
+const string IdentityUrl = "https://demo.duendesoftware.com";
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +15,44 @@ builder.Services.AddDbContext<TodoContext>(opt =>
         opt.UseSqlite( builder.Configuration.GetConnectionString( "DefaultConnection" ) );
     } );
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen( );
+builder.Services.AddSwaggerGen( options =>
+{
+    options.AddSecurityDefinition( "Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please enter a token",
+        Name = "Authorization",
+        Type = SecuritySchemeType.OAuth2,
+        Flows = new OpenApiOAuthFlows
+        {
+
+            AuthorizationCode = new OpenApiOAuthFlow
+            {
+                AuthorizationUrl = new Uri( IdentityUrl + "/connect/authorize" ),
+                TokenUrl = new Uri( IdentityUrl + "/connect/token" ),
+                Scopes = new Dictionary<string, string>
+                    {
+                        { "api", "Access API" }
+                    },
+            },
+        }
+    } );
+
+    options.AddSecurityRequirement( new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                },
+            },
+            new [] {"api"}
+        }
+    });
+} );
 
 builder.Services.AddCors( options =>
 {
@@ -79,7 +119,12 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI( config =>
+    {
+        config.OAuthClientId( "interactive.confidential" );
+        config.OAuthClientSecret( "secret" );
+        config.OAuthUsePkce();
+    } );
 }
 
 app.UseHttpsRedirection();
