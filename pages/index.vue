@@ -1,6 +1,13 @@
 <script setup>
 const { loggedIn, user, login, logout } = useOidcAuth();
-definePageMeta({auth:false})
+definePageMeta({ auth: false })
+
+
+import { useRouter } from 'vue-router'
+
+const router = useRouter();
+const routes = router.getRoutes();
+
 </script>
 
 <template>
@@ -19,6 +26,10 @@ definePageMeta({auth:false})
     <a href="/auth/github/login">Login with GitHub</a>
     <button @click="login()">Login with default provider</button>
   </div>
+<ul>
+    <li v-for="route in routes" :key="route.path">{{ route.path }}</li>
+  </ul>
+
 
 	</div>
 </template>
